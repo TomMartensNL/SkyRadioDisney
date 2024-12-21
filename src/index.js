@@ -5,6 +5,9 @@ import { setTimeout } from "node:timers/promises";
 // ================== BEGIN VARIABLES ==================
 const startUrl = 'https://acties.skyradio.nl/20/AD3F7B8C-6A37-4A73-B3BD-0FD7A5CE0F6D/s212/v1.cfm?id=AD3F7B8C-6A37-4A73-B3BD-0FD7A5CE0F6D';
 
+// Act like a real person
+const userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36';
+
 const codename = 'disney';
 const amountToRepeat = 100;
 // ================== END VARIABLES ==================
@@ -23,7 +26,9 @@ const runPuppeteer = async () => {
     // Launch the browser and open a new blank page
     const browser = await puppeteer.launch({ headless: false });
     const page = await browser.newPage();
+
     await page.setViewport({ width: 1024, height: 1024 });
+    await page.setUserAgent(userAgent);
 
     const userData = await getData();  // Fetch the JSON data
 
@@ -40,7 +45,7 @@ const runPuppeteer = async () => {
 
         for (const userInfo of userData) {
 
-            console.log('Going to submit for:', userData.firstName);
+            console.log('Going to submit for:', userInfo.firstName);
 
             // Navigate the page to a URL.
             await page.goto(startUrl);
