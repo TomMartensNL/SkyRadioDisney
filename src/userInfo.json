@@ -1,0 +1,9 @@
+[
+    {
+        "firstName": "test",
+        "lastName" : "tester",
+        "city" : "city",
+        "email" : "test@test.com",
+        "birthDate" : "01-12-1990"
+    }
+]
