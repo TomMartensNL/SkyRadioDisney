@@ -9,7 +9,7 @@ const startUrl = 'https://acties.skyradio.nl/20/AD3F7B8C-6A37-4A73-B3BD-0FD7A5CE
 const userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36';
 
 const codename = 'disney';
-const amountToRepeat = 100;
+const amountToRepeat = 50;
 // ================== END VARIABLES ==================
 
 const getData = async () => {
@@ -19,6 +19,10 @@ const getData = async () => {
     } catch (error) {
         console.error('Error reading JSON file:', error);
     }
+};
+
+const randomIntFromInterval = (min, max) => { // min and max included
+    return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
 const runPuppeteer = async () => {
@@ -42,6 +46,7 @@ const runPuppeteer = async () => {
     while (repeatCount < amountToRepeat) {
         repeatCount++;
         console.log('Submitting round:', repeatCount);
+        await setTimeout(randomIntFromInterval(900 * 1_000, 1_200 * 1_000));
 
         for (const userInfo of userData) {
 
@@ -49,31 +54,31 @@ const runPuppeteer = async () => {
 
             // Navigate the page to a URL.
             await page.goto(startUrl);
-    
+
             await page.locator('#reponse').fill(codename);
-    
+
             // Go to second page
             await page.locator('#next').click();
-    
-            await setTimeout(1_000);
-    
+
+            await setTimeout(randomIntFromInterval(3_000, 5_000));
+
             // Fill in personal details
             await page.locator('#choix_993410').fill(userInfo.firstName);
             await page.locator('#choix_993414').fill(userInfo.lastName);
-    
+
             await page.locator('#choix_993415').fill(userInfo.city);
             await page.locator('#choix_993411').fill(userInfo.email);
-    
+
             const [day, month, year] = userInfo.birthDate.split('-');
-    
+
             await page.locator('select[name="day"]').fill(day);
             await page.locator('select[name="month"]').fill(month);
             await page.locator('select[name="year"]').fill(year);
-    
+
             // Submit!
             await page.locator('#register').click();
-    
-            await setTimeout(3_000);
+
+            await randomIntFromInterval(3_000);
         }
     }
 
