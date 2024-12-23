@@ -46,7 +46,10 @@ const runPuppeteer = async () => {
     while (repeatCount < amountToRepeat) {
         repeatCount++;
         console.log('Submitting round:', repeatCount);
-        await setTimeout(randomIntFromInterval(900 * 1_000, 1_200 * 1_000));
+
+        if (repeatCount > 1) {
+            await setTimeout(randomIntFromInterval(900 * 1_000, 1_200 * 1_000));
+        }
 
         for (const userInfo of userData) {
 
@@ -60,7 +63,7 @@ const runPuppeteer = async () => {
             // Go to second page
             await page.locator('#next').click();
 
-            await setTimeout(randomIntFromInterval(3_000, 5_000));
+            await setTimeout(randomIntFromInterval(2_000, 3_000));
 
             // Fill in personal details
             await page.locator('#choix_993410').fill(userInfo.firstName);
@@ -78,7 +81,7 @@ const runPuppeteer = async () => {
             // Submit!
             await page.locator('#register').click();
 
-            await randomIntFromInterval(3_000);
+            await setTimeout(randomIntFromInterval(2_000, 3_000));
         }
     }
 
