@@ -25,6 +25,17 @@ const randomIntFromInterval = (min, max) => { // min and max included
     return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
+/**
+ *  Fisher-Yates shuffle: every permutation is equally likely
+ * @param {*} array
+ */
+const shuffleArray = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1)); // Random index from 0 to i
+      [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+    }
+  }
+
 const runPuppeteer = async () => {
 
     // Launch the browser and open a new blank page
@@ -52,7 +63,9 @@ const runPuppeteer = async () => {
 
         const currentDateTime = new Date().toLocaleString();
         console.log(`Submitting round: ${repeatCount} - ${currentDateTime}`);
-        for (const userInfo of userData) {
+
+        const randomSortedUserData = shuffleArray(userData);
+        for (const userInfo of randomSortedUserData) {
 
             console.log('Going to submit for:', userInfo.firstName);
 
