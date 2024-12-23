@@ -8,7 +8,7 @@ const startUrl = 'https://acties.skyradio.nl/20/AD3F7B8C-6A37-4A73-B3BD-0FD7A5CE
 // Act like a real person
 const userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36';
 
-const codename = 'disney';
+const codename = 'Kerst';
 const amountToRepeat = 50;
 // ================== END VARIABLES ==================
 
@@ -45,12 +45,13 @@ const runPuppeteer = async () => {
     let repeatCount = 0;
     while (repeatCount < amountToRepeat) {
         repeatCount++;
-        console.log('Submitting round:', repeatCount);
 
         if (repeatCount > 1) {
             await setTimeout(randomIntFromInterval(900 * 1_000, 1_200 * 1_000));
         }
 
+        const currentDateTime = new Date().toLocaleString();
+        console.log(`Submitting round: ${repeatCount} - ${currentDateTime}`);
         for (const userInfo of userData) {
 
             console.log('Going to submit for:', userInfo.firstName);
@@ -81,7 +82,7 @@ const runPuppeteer = async () => {
             // Submit!
             await page.locator('#register').click();
 
-            await setTimeout(randomIntFromInterval(2_000, 3_000));
+            await setTimeout(randomIntFromInterval(5_000, 8_000));
         }
     }
 
